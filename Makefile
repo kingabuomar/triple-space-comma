@@ -1,20 +1,20 @@
 .PHONY: build test install uninstall package clean
 
 build:
-	./scripts/build.sh
+	bash ./scripts/build.sh
 
 test:
-	./scripts/test.sh
+	bash ./scripts/test.sh
 	bash -n scripts/*.sh *.command
 
 install:
-	./scripts/install.sh
+	bash ./scripts/install.sh
 
 uninstall:
-	./scripts/uninstall.sh
+	bash ./scripts/uninstall.sh
 
 package:
-	./scripts/package-release.sh
+	bash ./scripts/package-release.sh
 
 clean:
 	swift package clean
