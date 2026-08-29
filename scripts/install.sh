@@ -22,7 +22,7 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
 fi
 
 if [[ "${TRIPLE_SPACE_COMMA_BUILD_FROM_SOURCE:-0}" == "1" || ! -d "$SOURCE_APP" ]]; then
-    "$ROOT_DIR/scripts/build.sh"
+    bash "$ROOT_DIR/scripts/build.sh"
 fi
 
 if [[ ! -d "$SOURCE_APP" ]]; then
