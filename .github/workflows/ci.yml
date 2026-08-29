@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: macos-14
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Test Swift core
+        run: ./scripts/test.sh
+
+      - name: Validate scripts
+        run: bash -n scripts/*.sh *.command
+
+      - name: Build app
+        env:
+          BUILD_UNIVERSAL: "0"
+        run: ./scripts/build.sh
+
+      - name: Verify app bundle
+        run: |
+          plutil -lint "dist/Triple Space Comma.app/Contents/Info.plist"
+          codesign --verify --deep --strict "dist/Triple Space Comma.app"
+          "dist/Triple Space Comma.app/Contents/MacOS/TripleSpaceComma" --self-test
+
+      - name: Smoke-test installer and uninstaller
+        run: |
+          TEST_HOME="$(mktemp -d)"
+          HOME="$TEST_HOME" TRIPLE_SPACE_COMMA_SKIP_LAUNCH=1 ./scripts/install.sh
+          test -d "$TEST_HOME/Applications/Triple Space Comma.app"
+          test -f "$TEST_HOME/Library/LaunchAgents/com.saifqawasmi.triplespacecomma.plist"
+          HOME="$TEST_HOME" TRIPLE_SPACE_COMMA_SKIP_LAUNCH=1 ./scripts/uninstall.sh
+          test ! -e "$TEST_HOME/Applications/Triple Space Comma.app"
+          test ! -e "$TEST_HOME/Library/LaunchAgents/com.saifqawasmi.triplespacecomma.plist"
