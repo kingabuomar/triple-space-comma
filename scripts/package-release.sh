@@ -8,8 +8,8 @@ PACKAGE_NAME="Triple Space Comma v$VERSION"
 ARCHIVE_NAME="Triple-Space-Comma-v$VERSION.zip"
 
 cd "$ROOT_DIR"
-"$ROOT_DIR/scripts/test.sh"
-VERSION="$VERSION" BUILD_UNIVERSAL=1 "$ROOT_DIR/scripts/build.sh"
+bash "$ROOT_DIR/scripts/test.sh"
+VERSION="$VERSION" BUILD_UNIVERSAL=1 bash "$ROOT_DIR/scripts/build.sh"
 
 mkdir -p "$RELEASE_DIR"
 STAGE_DIR="$(mktemp -d "$RELEASE_DIR/.stage.XXXXXX")"
