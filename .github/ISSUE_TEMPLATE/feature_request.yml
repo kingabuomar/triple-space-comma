@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest a focused improvement that preserves the utility's privacy and simplicity.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What concrete problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Project constraints
+      options:
+        - label: The proposal does not require storing typed content.
+          required: true
+        - label: The proposal does not require an account or telemetry.
+          required: true
